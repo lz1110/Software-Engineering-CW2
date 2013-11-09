@@ -12,8 +12,30 @@ import java.util.*;
 public class BillingSystem {
 
     private List<CallEvent> callLog = new ArrayList<CallEvent>();
+    
+    ICustomerDatabase customerDatabase;
+	public ICustomerDatabase getCustomerDatabase() {
+		if (customerDatabase == null) customerDatabase = new CustomerDatabase();
+		return customerDatabase;
+	}
+	public void setCustomerDatabase(ICustomerDatabase customerDatabase) {
+		this.customerDatabase = customerDatabase;
+	}
+	
+	
+	
 
-    public void callInitiated(String caller, String callee) {
+	private IBillGenerator billGenerator;
+    public IBillGenerator getBillGenerator() {
+		if (billGenerator == null) billGenerator = new BillGenerator();
+		return billGenerator;
+	}
+	public void setBillGenerator(IBillGenerator billGenerator) {
+		this.billGenerator = billGenerator;
+	}
+	
+
+	public void callInitiated(String caller, String callee) {
         callLog.add(new CallStart(caller, callee));
     }
 
@@ -21,8 +43,9 @@ public class BillingSystem {
         callLog.add(new CallEnd(caller, callee));
     }
 
+    
     public void createCustomerBills() {
-        List<Customer> customers = CentralCustomerDatabase.getInstance().getCustomers();
+    	List<Customer> customers = getCustomerDatabase().getCustomers();
         for (Customer customer : customers) {
             createBillFor(customer);
         }
@@ -72,7 +95,7 @@ public class BillingSystem {
             items.add(new LineItem(call, callCost));
         }
 
-        new BillGenerator().send(customer, items, MoneyFormatter.penceToPounds(totalBill));
+        getBillGenerator().send(customer, items, MoneyFormatter.penceToPounds(totalBill));
     }
 
     static class LineItem {
