@@ -54,7 +54,7 @@ public class BillingSystem {
 
         for (Call call : calls) {
 
-            Tariff tariff = CentralTariffDatabase.getInstance().tarriffFor(customer);
+            Tariff tariff = CentralTariffDatabase.getInstance().tarriffFor(customer); //TODO make into interface
 
             BigDecimal cost;
 
@@ -71,8 +71,9 @@ public class BillingSystem {
             items.add(new LineItem(call, callCost));
         }
 
-        new BillGenerator().send(customer, items, MoneyFormatter.penceToPounds(totalBill));
+        getBillGenerator().send(customer, items, MoneyFormatter.penceToPounds(totalBill));
     }
+
 
     public void setCustomers(List<Customer> customers){
         this.customers = customers;
@@ -80,8 +81,28 @@ public class BillingSystem {
 
     public List<Customer> getCustomers() {
         if(customers == null)
-            customers = CentralCustomerDatabase.getInstance().getCustomers();
+            customers = getCustomerDatabase().getCustomers();
         return customers;
+    }
+
+    ICustomerDatabase customerDatabase;
+    public ICustomerDatabase getCustomerDatabase() {
+        if (customerDatabase == null)
+            customerDatabase = new CustomerDatabase();
+        return customerDatabase;
+    }
+    public void setCustomerDatabase(ICustomerDatabase customerDatabase) {
+        this.customerDatabase = customerDatabase;
+    }
+
+    private IBillGenerator billGenerator;
+    public IBillGenerator getBillGenerator() {
+        if (billGenerator == null)
+            billGenerator = new BillGenerator();
+        return billGenerator;
+    }
+    public void setBillGenerator(IBillGenerator billGenerator) {
+        this.billGenerator = billGenerator;
     }
 
     static class LineItem {

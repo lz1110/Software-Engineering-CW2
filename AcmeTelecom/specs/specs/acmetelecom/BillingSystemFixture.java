@@ -7,6 +7,8 @@ import java.util.List;
 import org.concordion.integration.junit4.ConcordionRunner;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeUtils;
 import org.junit.runner.RunWith;
 import com.acmetelecom.BillingSystem;
 import com.acmetelecom.customer.Customer;
@@ -26,16 +28,30 @@ public class BillingSystemFixture {
 
 		BillingSystem billingSystem = new BillingSystem();
         billingSystem.setCustomers(mockCustomers);
-		
-		billingSystem.callInitiated("447722113434", "447070372938");
-		sleepSeconds(5);
-		billingSystem.callCompleted("447722113434", "447070372938");
-		billingSystem.createCustomerBills();
 
+        final int YEAR = 2013;
+        final int MONTH = 11;
+        final int DAY = 11;
+
+        freeze(new DateTime(YEAR, MONTH, DAY, 19, 00, 00));
+		billingSystem.callInitiated("447722113434", "447070372938");
+
+        freeze(new DateTime(YEAR, MONTH, DAY+1, 6, 59, 59));
+		billingSystem.callCompleted("447722113434", "447070372938");
+
+        unfreeze();
+		billingSystem.createCustomerBills();
 
         return byteOutput.toString();
 	}
 
+    public static void freeze(DateTime frozenDateTime) {
+        DateTimeUtils.setCurrentMillisFixed(frozenDateTime.getMillis());
+    }
+
+    public static void unfreeze() {
+        DateTimeUtils.setCurrentMillisSystem();
+    }
 
     // creates mock customer list
     private List<Customer> getMockCustomers() {
@@ -50,13 +66,4 @@ public class BillingSystemFixture {
 		Thread.sleep(n*1000);
 	}
 	
-	/*
-    public static void freeze(DateTime frozenDateTime) {
-        DateTimeUtils.setCurrentMillisFixed(frozenDateTime.getMillis());
-    }
-    
-    public static void unfreeze() {
-        DateTimeUtils.setCurrentMillisSystem();
-    }
-    */
 }
