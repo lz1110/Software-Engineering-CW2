@@ -86,9 +86,4 @@ public class BillingSystemFixture {
         mockCustomers.add(new Customer("customer3", "447010102020","Leisure"));
         return mockCustomers;
     }
-
-    private static void sleepSeconds(int n) throws InterruptedException {
-		Thread.sleep(n*1000);
-	}
-	
 }
