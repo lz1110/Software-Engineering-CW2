@@ -1,8 +1,52 @@
 <html xmlns:concordion="http://www.concordion.org/2007/concordion">
-    <body>
-        <p>
-        	test
-    		<p concordion:assertEquals="testMock()">requirements were met</p>
-        </p>
-    </body>
+<body>
+<head>
+    <link href="../concordion.css" rel="stylesheet" type="text/css" />
+</head>
+
+<h1>Off-peak rate</h1>
+
+<p>
+    When a call is placed during off-peak time without overlapping into a peak time,
+    the system should only charge the caller at <b>off-peak rate</b> for the elapsed time.
+    The bill should be in HTML format.
+</p>
+
+<p>
+<p concordion:assertEquals="testSimpleOffPeakRate()">
+    &lt;html&gt; &lt;head&gt;&lt;/head&gt; &lt;body&gt; &lt;h1&gt; Acme Telecom &lt;/h1&gt; &lt;h2&gt;
+    customer1/447722113434 - Price Plan: Standard&lt;/h2&gt;
+    &lt;table border="1"&gt;
+    &lt;tr&gt;&lt;th width="160"&gt;Time&lt;/th&gt;&lt;th width="160"&gt;Number&lt;/th&gt;&lt;th width="160"&gt;Duration&lt;/th&gt;&lt;th width="160"&gt;Cost&lt;/th&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td&gt;10/11/13 22:00&lt;/td&gt;&lt;td&gt;447070372938&lt;/td&gt;&lt;td&gt;0:05&lt;/td&gt;&lt;td&gt;0.01&lt;/td&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;h2&gt;Total: 0.01&lt;/h2&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    &lt;html&gt;
+    &lt;head&gt;&lt;/head&gt;
+    &lt;body&gt;
+    &lt;h1&gt;
+    Acme Telecom
+    &lt;/h1&gt;
+    &lt;h2&gt;customer2/447712312312 - Price Plan: Business&lt;/h2&gt;
+    &lt;table border="1"&gt;
+    &lt;tr&gt;&lt;th width="160"&gt;Time&lt;/th&gt;&lt;th width="160"&gt;Number&lt;/th&gt;&lt;th width="160"&gt;Duration&lt;/th&gt;&lt;th width="160"&gt;Cost&lt;/th&gt;&lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;h2&gt;Total: 0.00&lt;/h2&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+    &lt;html&gt;
+    &lt;head&gt;&lt;/head&gt;
+    &lt;body&gt;
+    &lt;h1&gt;
+    Acme Telecom
+    &lt;/h1&gt;
+    &lt;h2&gt;customer3/447010102020 - Price Plan: Leisure&lt;/h2&gt;
+    &lt;table border="1"&gt;
+    &lt;tr&gt;&lt;th width="160"&gt;Time&lt;/th&gt;&lt;th width="160"&gt;Number&lt;/th&gt;&lt;th width="160"&gt;Duration&lt;/th&gt;&lt;th width="160"&gt;Cost&lt;/th&gt;&lt;/tr&gt;
+    &lt;/table&gt; &lt;h2&gt;Total: 0.00&lt;/h2&gt; &lt;/body&gt; &lt;/html&gt;
+</p>
+</p>
+</body>
 </html>

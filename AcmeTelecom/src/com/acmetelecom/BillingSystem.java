@@ -1,9 +1,6 @@
 package com.acmetelecom;
 
-import com.acmetelecom.customer.CentralCustomerDatabase;
-import com.acmetelecom.customer.CentralTariffDatabase;
-import com.acmetelecom.customer.Customer;
-import com.acmetelecom.customer.Tariff;
+import com.acmetelecom.customer.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -12,30 +9,9 @@ import java.util.*;
 public class BillingSystem {
 
     private List<CallEvent> callLog = new ArrayList<CallEvent>();
-    
-    ICustomerDatabase customerDatabase;
-	public ICustomerDatabase getCustomerDatabase() {
-		if (customerDatabase == null) customerDatabase = new CustomerDatabase();
-		return customerDatabase;
-	}
-	public void setCustomerDatabase(ICustomerDatabase customerDatabase) {
-		this.customerDatabase = customerDatabase;
-	}
-	
-	
-	
+    private List<Customer> customers;
 
-	private IBillGenerator billGenerator;
-    public IBillGenerator getBillGenerator() {
-		if (billGenerator == null) billGenerator = new BillGenerator();
-		return billGenerator;
-	}
-	public void setBillGenerator(IBillGenerator billGenerator) {
-		this.billGenerator = billGenerator;
-	}
-	
-
-	public void callInitiated(String caller, String callee) {
+    public void callInitiated(String caller, String callee) {
         callLog.add(new CallStart(caller, callee));
     }
 
@@ -45,7 +21,7 @@ public class BillingSystem {
 
     
     public void createCustomerBills() {
-    	List<Customer> customers = getCustomerDatabase().getCustomers();
+    	List<Customer> customers = getCustomers();
         for (Customer customer : customers) {
             createBillFor(customer);
         }
@@ -95,7 +71,17 @@ public class BillingSystem {
             items.add(new LineItem(call, callCost));
         }
 
-        getBillGenerator().send(customer, items, MoneyFormatter.penceToPounds(totalBill));
+        new BillGenerator().send(customer, items, MoneyFormatter.penceToPounds(totalBill));
+    }
+
+    public void setCustomers(List<Customer> customers){
+        this.customers = customers;
+    }
+
+    public List<Customer> getCustomers() {
+        if(customers == null)
+            customers = CentralCustomerDatabase.getInstance().getCustomers();
+        return customers;
     }
 
     static class LineItem {
