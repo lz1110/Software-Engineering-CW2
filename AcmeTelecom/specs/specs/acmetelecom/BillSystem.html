@@ -1,0 +1,49 @@
+<html xmlns:concordion="http://www.concordion.org/2007/concordion">
+	<head>
+    	<link href="../concordion.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<!--This is the code for testing call rates-->
+		<h1> Test Off-Peak, Peak, Overlap Rates</h1>
+		<p>
+			(Some descriptions here.)
+		</p>
+
+		<div class = "Call rates">
+			<h3>Off-Peak</h3>
+			<table concordion:execute = "#result = testCallRate(#customerName, #callStartTime, #callEndTime, #callersToTest, #expectedBill)">
+				<tr>
+					<th concordion:set="#customerName">Customer Name</th>
+					<th concordion:set="#callStartTime">Call Start Time</th>
+					<th concordion:set="#callEndTime">Call End Time</th>
+					<th concordion:set="#callersToTest">Callers We Want To Test</th>
+					<th concordion:set="#expectedBill">Expected Bill</th>
+					<th concordion:assertEquals="#result">Acceptance Test Passed</th>
+				</tr>
+				<tr>
+					<td>Business Caller 1<br/>and<br/>Business Caller 2<br/>and<br/>Business Caller 2</td>
+					<td>11/11/2013 23:00:00<br/>and<br/>11/11/2013 23:00:00<br/>and<br/>11/11/2013 23:00:00</td>
+					<td>11/11/2013 23:00:05<br/>and<br/>11/11/2013 23:00:05<br/>and<br/>11/11/2013 23:00:05</td>
+					<td>Business Caller 1<br/>and<br/>Business Caller 2</td>
+					<td>0.01<br/>and<br/>0.02</td>
+					<td>true</td>
+				</tr>
+				<tr>
+					<td>Business Caller 1</td>
+					<td>11/11/2013 23:00:00</td>
+					<td>11/11/2013 23:00:05</td>
+					<td>Business Caller 1</td>
+					<td>0.01</td>
+					<td>true</td>
+				</tr>
+			</table>
+			
+			<h3>Peak</h3>
+			
+			
+			<h3>Overlap</h3>
+			
+			
+		</div>
+	</body>
+</html>
