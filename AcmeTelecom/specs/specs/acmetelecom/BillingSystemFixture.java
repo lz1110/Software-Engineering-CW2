@@ -21,6 +21,8 @@ public class BillingSystemFixture {
 	
 	private Mockery mockingContext = new Mockery();
 	
+
+	
 	public String testSimpleOffPeakRate() throws InterruptedException {
 
         final List<Customer> mockCustomers = getMockCustomers();
@@ -30,25 +32,7 @@ public class BillingSystemFixture {
         System.setOut(new PrintStream(byteOutput));
 
 
-  /*      BillingSystem billingSystem = new BillingSystem();
-        final IBillGenerator mockBillGenerator = mockingContext.mock(IBillGenerator.class);
-        final ICustomerDatabase mockCustomerDatabase = mockingContext.mock(ICustomerDatabase.class);
-        billingSystem.setBillGenerator(mockBillGenerator);
-        billingSystem.setCustomerDatabase(mockCustomerDatabase);
 
-        mockingContext.checking(new Expectations() {
-            {
-                oneOf(mockCustomerDatabase).getCustomers(); will(returnValue(mockCustomers));
-            }
-        });
-
-
-        mockingContext.checking(new Expectations() {
-            {
-                oneOf(mockBillGenerator).send(with(same(mockCustomers.get(1))), with(any(List.class)),with(equal("0.01")));
-                allowing(mockBillGenerator).send(with(any(Customer.class)), with(any(List.class)), with(any(String.class)));
-            }
-        });*/
 
 
 		BillingSystem billingSystem = new BillingSystem();

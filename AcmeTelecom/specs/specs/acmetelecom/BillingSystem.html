@@ -1,17 +1,19 @@
 <html xmlns:concordion="http://www.concordion.org/2007/concordion">
-<body>
 <head>
     <link href="../concordion.css" rel="stylesheet" type="text/css" />
 </head>
 
-<h1>Off-peak rate</h1>
 
+<body>
+
+<!--This is the code for testing bill generator. will test these later-->
+
+<h1>Off-peak rate</h1>
 <p>
     When a call is placed during off-peak time without overlapping into a peak time,
     the system should only charge the caller at <b>off-peak rate</b> for the elapsed time.
     The bill should be in HTML format.
 </p>
-
 <p>
 <p concordion:assertEquals="testSimpleOffPeakRate()">
     &lt;html&gt;
