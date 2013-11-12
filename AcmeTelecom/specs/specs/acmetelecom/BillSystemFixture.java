@@ -36,6 +36,9 @@ public class BillSystemFixture {
 		add(new Customer("Business Caller 1", "Business Caller 1's Phone Number","Business"));
 		add(new Customer("Business Caller 2", "Business Caller 2's Phone Number","Business"));
 		add(new Customer("Leisure Caller 1", "Leisure Caller 1's Phone Number","Leisure"));
+		add(new Customer("Standard", "Standard Caller 1's Phone Number","Standard"));
+		add(new Customer("Business", "Business Caller 1's Phone Number","Business"));
+		add(new Customer("Leisure", "Leisure Caller 1's Phone Number","Leisure"));
 		add(testCallee);
 	}};
 	
