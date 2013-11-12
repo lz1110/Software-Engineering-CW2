@@ -19,22 +19,116 @@
 					<th concordion:set="#expectedBill">Expected Bill</th>
 					<th concordion:assertEquals="#result">Acceptance Test Passed</th>
 				</tr>
-
+				<tr>
+					<td>Standard</td>
+					<td>11/11/2013 19:00:00</td>
+					<td>12/11/2013 06:59:59</td>
+					<td>86.40</td>
+					<td>true</td>
+				</tr>
 				<tr>
 					<td>Business</td>
-					<td>11/11/2013 23:00:00</td>
-					<td>11/11/2013 23:00:05</td>
-					<td>0.01</td>
+					<td>11/11/2013 19:00:00</td>
+					<td>12/11/2013 06:59:59</td>
+					<td>129.60</td>
+					<td>true</td>
+				</tr>
+				<tr>
+					<td>Leisure</td>
+					<td>11/11/2013 19:00:00</td>
+					<td>12/11/2013 06:59:59</td>
+					<td>43.20</td>
 					<td>true</td>
 				</tr>
 			</table>
 			
 			<h3>Peak Single Caller</h3>
+			<table concordion:execute = "#result = testCallRate(#customerName, #callStartTime, #callEndTime, #customerName, #expectedBill)">
+				<tr>
+					<th concordion:set="#customerName">Customer Type</th>
+					<th concordion:set="#callStartTime">Call Start Time</th>
+					<th concordion:set="#callEndTime">Call End Time</th>
+					<th concordion:set="#expectedBill">Expected Bill</th>
+					<th concordion:assertEquals="#result">Acceptance Test Passed</th>
+				</tr>
+				<tr>
+					<td>Standard</td>
+					<td>11/11/2013 07:00:00</td>
+					<td>11/11/2013 18:59:59</td>
+					<td>216.00</td>
+					<td>true</td>
+				</tr>
+				<tr>
+					<td>Business</td>
+					<td>11/11/2013 07:00:00</td>
+					<td>11/11/2013 18:59:59</td>
+					<td>129.60</td>
+					<td>true</td>
+				</tr>
+				<tr>
+					<td>Leisure</td>
+					<td>11/11/2013 07:00:00</td>
+					<td>11/11/2013 18:59:59</td>
+					<td>345.59</td>
+					<td>true</td>
+				</tr>
+			</table>
 			
-			
-			<h3>Overlap Sinle Caller</h3>
-			
-			<h3>Multiple</h3>
+			<h3>Overlap Single Caller</h3>
+			<table concordion:execute = "#result = testCallRate(#customerName, #callStartTime, #callEndTime, #customerName, #expectedBill)">
+				<tr>
+					<th concordion:set="#customerName">Customer Type</th>
+					<th concordion:set="#callStartTime">Call Start Time</th>
+					<th concordion:set="#callEndTime">Call End Time</th>
+					<th concordion:set="#expectedBill">Expected Bill</th>
+					<th concordion:assertEquals="#result">Acceptance Test Passed</th>
+				</tr>
+				<tr>
+					<td>Standard</td>
+					<td>11/11/2013 06:00:00</td>
+					<td>11/11/2013 17:59:59</td>
+					<td>216.00</td>
+					<td>true</td>
+				</tr>
+				<tr>
+					<td>Business</td>
+					<td>11/11/2013 06:00:00</td>
+					<td>11/11/2013 17:59:59</td>
+					<td>129.60</td>
+					<td>true</td>
+				</tr>
+				<tr>
+					<td>Leisure</td>
+					<td>11/11/2013 06:00:00</td>
+					<td>11/11/2013 17:59:59</td>
+					<td>345.59</td>
+					<td>true</td>
+				</tr>
+				<tr>
+					<td>Standard</td>
+					<td>11/11/2013 07:00:00</td>
+					<td>11/11/2013 18:59:59</td>
+					<td>216.00</td>
+					<td>true</td>
+				</tr>
+				<tr>
+					<td>Business</td>
+					<td>11/11/2013 07:00:00</td>
+					<td>11/11/2013 18:59:59</td>
+					<td>129.60</td>
+					<td>true</td>
+				</tr>
+				<tr>
+					<td>Leisure</td>
+					<td>11/11/2013 07:00:00</td>
+					<td>11/11/2013 18:59:59</td>
+					<td>345.59</td>
+					<td>true</td>
+				</tr>
+				
+				
+			</table>
+			<h3>Multiple Caller and other test interesting test cases</h3>
 			<table concordion:execute = "#result = testCallRate(#customerName, #callStartTime, #callEndTime, #callersToTest, #expectedBill)">
 				<tr>
 					<th concordion:set="#customerName">Customer Name</th>
@@ -45,11 +139,11 @@
 					<th concordion:assertEquals="#result">Acceptance Test Passed</th>
 				</tr>
 				<tr>
-					<td>Business Caller 1<br/>and<br/>Business Caller 2<br/>and<br/>Business Caller 2</td>
-					<td>11/11/2013 23:00:00<br/>and<br/>11/11/2013 23:00:00<br/>and<br/>11/11/2013 23:00:00</td>
-					<td>11/11/2013 23:00:05<br/>and<br/>11/11/2013 23:00:05<br/>and<br/>11/11/2013 23:00:05</td>
-					<td>Business Caller 1<br/>and<br/>Business Caller 2</td>
-					<td>0.01<br/>and<br/>0.02</td>
+					<td>Business Caller 1<br/>AND<br/>Business Caller 2<br/>AND<br/>Business Caller 2</td>
+					<td>11/11/2013 23:00:00<br/>AND<br/>11/11/2013 23:00:00<br/>AND<br/>11/11/2013 23:00:00</td>
+					<td>11/11/2013 23:00:05<br/>AND<br/>11/11/2013 23:00:05<br/>AND<br/>11/11/2013 23:00:05</td>
+					<td>Business Caller 1<br/>AND<br/>Business Caller 2</td>
+					<td>0.01<br/>AND<br/>0.02</td>
 					<td>true</td>
 				</tr>
 			</table>

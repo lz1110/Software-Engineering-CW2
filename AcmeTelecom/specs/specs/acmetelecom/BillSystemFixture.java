@@ -36,9 +36,9 @@ public class BillSystemFixture {
 		add(new Customer("Business Caller 1", "Business Caller 1's Phone Number","Business"));
 		add(new Customer("Business Caller 2", "Business Caller 2's Phone Number","Business"));
 		add(new Customer("Leisure Caller 1", "Leisure Caller 1's Phone Number","Leisure"));
-		add(new Customer("Standard", "Standard Caller 1's Phone Number","Standard"));
-		add(new Customer("Business", "Business Caller 1's Phone Number","Business"));
-		add(new Customer("Leisure", "Leisure Caller 1's Phone Number","Leisure"));
+		add(new Customer("Standard", "Standard Caller's Phone Number","Standard"));
+		add(new Customer("Business", "Business Caller's Phone Number","Business"));
+		add(new Customer("Leisure", "Leisure Caller's Phone Number","Leisure"));
 		add(testCallee);
 	}};
 	
@@ -65,11 +65,11 @@ public class BillSystemFixture {
         billingSystem.setCustomerDatabase(mockCustomerDatabase);
 		
 		// Split parameters to support multiple calls
-		String [] customerNames = customerName.split("and");
-		String [] callStartTimes = callStartTime.split("and");
-		String [] callEndTimes = callEndTime.split("and");
-		String [] expectedBills = expectedBill.split("and");
-		String [] allCallers = callersToTest.split("and");
+		String [] customerNames = customerName.split("AND");
+		String [] callStartTimes = callStartTime.split("AND");
+		String [] callEndTimes = callEndTime.split("AND");
+		String [] expectedBills = expectedBill.split("AND");
+		String [] allCallers = callersToTest.split("AND");
 
 		mockingContext.checking(new Expectations() {
 			{
