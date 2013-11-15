@@ -1,5 +1,6 @@
 package com.acmetelecom;
 
+import com.acmetelecom.com.acmetelecom.call.*;
 import com.acmetelecom.customer.*;
 
 import java.math.BigDecimal;
@@ -7,16 +8,21 @@ import java.math.RoundingMode;
 import java.util.*;
 
 public class BillingSystem {
-
+    private ICallEventFactory callFactory;
     private List<CallEvent> callLog = new ArrayList<CallEvent>();
     private List<Customer> customers;
 
+    public BillingSystem(){
+        callFactory = new CallEventFactory();
+        // TODO either make it static class, or move the construction to somewhere else
+    }
+
     public void callInitiated(String caller, String callee) {
-        callLog.add(new CallStart(caller, callee));
+        callLog.add(callFactory.createCallEvent(caller, callee, CallEventType.START));
     }
 
     public void callCompleted(String caller, String callee) {
-        callLog.add(new CallEnd(caller, callee));
+        callLog.add(callFactory.createCallEvent(caller, callee, CallEventType.END));
     }
 
     
@@ -40,10 +46,9 @@ public class BillingSystem {
 
         CallEvent start = null;
         for (CallEvent event : customerEvents) {
-            if (event instanceof CallStart) {
+            if (event.getType() == CallEventType.START) {
                 start = event;
-            }
-            if (event instanceof CallEnd && start != null) {
+            } else if (event.getType() == CallEventType.END && start != null) {
                 calls.add(new Call(start, event));
                 start = null;
             }

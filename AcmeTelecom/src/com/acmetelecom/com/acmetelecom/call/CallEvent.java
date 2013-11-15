@@ -1,4 +1,4 @@
-package com.acmetelecom;
+package com.acmetelecom.com.acmetelecom.call;
 
 public abstract class CallEvent {
     private String caller;
@@ -22,4 +22,6 @@ public abstract class CallEvent {
     public long time() {
         return time;
     }
+
+    public abstract CallEventType getType();
 }
