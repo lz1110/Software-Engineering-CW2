@@ -1,6 +1,6 @@
 package com.acmetelecom;
 
-import com.acmetelecom.com.acmetelecom.call.*;
+import com.acmetelecom.call.*;
 import com.acmetelecom.customer.*;
 
 import java.math.BigDecimal;

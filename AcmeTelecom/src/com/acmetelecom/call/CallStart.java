@@ -1,4 +1,4 @@
-package com.acmetelecom.com.acmetelecom.call;
+package com.acmetelecom.call;
 
 import org.joda.time.DateTime;
 

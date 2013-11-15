@@ -1,4 +1,4 @@
-package com.acmetelecom.com.acmetelecom.call;
+package com.acmetelecom.call;
 
 /**
  * Interface for factory creating call events
