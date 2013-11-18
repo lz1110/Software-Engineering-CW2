@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
+import org.joda.time.DateTime;
+
 public class BillingSystem {
     private ICallEventFactory callFactory;
     private List<CallEvent> callLog = new ArrayList<CallEvent>();
@@ -60,16 +62,15 @@ public class BillingSystem {
         for (Call call : calls) {
 
             Tariff tariff = CentralTariffDatabase.getInstance().tarriffFor(customer); //TODO make into interface
-
-            BigDecimal cost;
-
-            DaytimePeakPeriod peakPeriod = new DaytimePeakPeriod();
+            BigDecimal cost = new BillCalculator().calculate(call,tariff);
+           /*
             if (peakPeriod.offPeak(call.startTime()) && peakPeriod.offPeak(call.endTime()) && call.durationSeconds() < 12 * 60 * 60) {
                 cost = new BigDecimal(call.durationSeconds()).multiply(tariff.offPeakRate());
             } else {
                 cost = new BigDecimal(call.durationSeconds()).multiply(tariff.peakRate());
             }
-
+            */
+            //cost = new BigDecimal(0);
             cost = cost.setScale(0, RoundingMode.HALF_UP);
             BigDecimal callCost = cost;
             totalBill = totalBill.add(callCost);
