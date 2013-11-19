@@ -12,5 +12,5 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface IBillGenerator {
-    public void send(Customer customer, List<BillingSystem.LineItem> calls, String totalBill);
+    public void send(Customer customer, List<LineItem> calls, String totalBill);
 }
