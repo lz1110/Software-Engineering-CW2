@@ -48,9 +48,8 @@ public class BillCalculator implements IBillCalculator {
         	peak = ( peakEndOn(call.startTime()) - call.startTime().getTime()) / 1000;
         	offPeak = call.durationSeconds() - peak;
         }
-        MathContext mc = new MathContext(4);
-		BigDecimal peakCharge = BigDecimal.valueOf(peak).multiply(peakRate,mc);
-		BigDecimal offPeakCharge = BigDecimal.valueOf(offPeak).multiply(offPeakRate,mc);
+		BigDecimal peakCharge = BigDecimal.valueOf(peak).multiply(peakRate);
+		BigDecimal offPeakCharge = BigDecimal.valueOf(offPeak).multiply(offPeakRate);
 		cost = peakCharge.add(offPeakCharge);
         
 		return cost;
