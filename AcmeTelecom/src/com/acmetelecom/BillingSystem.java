@@ -9,9 +9,43 @@ import java.util.*;
 
 public class BillingSystem {
     private ICallEventFactory callFactory;
+    private ICustomerDatabase customerDatabase;
+    private ITariffDatabase tariffDatabase;
+	private IBillGenerator billGenerator;
+
+    // Getter and Setters
+    public ICustomerDatabase getCustomerDatabase() {
+        if (customerDatabase == null)
+            customerDatabase = new CustomerDatabase();
+        return customerDatabase;
+    }
+    public void setCustomerDatabase(ICustomerDatabase customerDatabase) {
+        this.customerDatabase = customerDatabase;
+    }
+
+    public IBillGenerator getBillGenerator() {
+        if (billGenerator == null)
+            billGenerator = new BillGenerator();
+        return billGenerator;
+    }
+    public void setBillGenerator(IBillGenerator billGenerator) {
+        this.billGenerator = billGenerator;
+    }
+    
+    public ITariffDatabase getTariffDatabase() {
+		if (tariffDatabase == null)
+			tariffDatabase = new TariffDatabase(); 
+	    return tariffDatabase;
+	}
+	public void setTariffDatabase(ITariffDatabase tariffDatabase) {
+		this.tariffDatabase = tariffDatabase;
+	}
+    
+	
+    // The BillingSystem starts here
     private List<CallEvent> callLog = new ArrayList<CallEvent>();
     private List<Customer> customers;
-
+    
     public BillingSystem(){
         callFactory = new CallEventFactory();
         // TODO either make it static class, or move the construction to somewhere else
@@ -59,15 +93,13 @@ public class BillingSystem {
 
         for (Call call : calls) {
 
-            Tariff tariff = CentralTariffDatabase.getInstance().tarriffFor(customer); //TODO make into interface
-
             BigDecimal cost;
 
             DaytimePeakPeriod peakPeriod = new DaytimePeakPeriod();
             if (peakPeriod.offPeak(call.startTime()) && peakPeriod.offPeak(call.endTime()) && call.durationSeconds() < 12 * 60 * 60) {
-                cost = new BigDecimal(call.durationSeconds()).multiply(tariff.offPeakRate());
+                cost = new BigDecimal(call.durationSeconds()).multiply(tariffDatabase.offPeakRate(customer));
             } else {
-                cost = new BigDecimal(call.durationSeconds()).multiply(tariff.peakRate());
+                cost = new BigDecimal(call.durationSeconds()).multiply(tariffDatabase.peakRate(customer));
             }
 
             cost = cost.setScale(0, RoundingMode.HALF_UP);
@@ -90,25 +122,6 @@ public class BillingSystem {
         return customers;
     }
 
-    ICustomerDatabase customerDatabase;
-    public ICustomerDatabase getCustomerDatabase() {
-        if (customerDatabase == null)
-            customerDatabase = new CustomerDatabase();
-        return customerDatabase;
-    }
-    public void setCustomerDatabase(ICustomerDatabase customerDatabase) {
-        this.customerDatabase = customerDatabase;
-    }
-
-    private IBillGenerator billGenerator;
-    public IBillGenerator getBillGenerator() {
-        if (billGenerator == null)
-            billGenerator = new BillGenerator();
-        return billGenerator;
-    }
-    public void setBillGenerator(IBillGenerator billGenerator) {
-        this.billGenerator = billGenerator;
-    }
 
     static class LineItem {
         private Call call;
