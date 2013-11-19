@@ -3,12 +3,15 @@ package com.acmetelecom;
 import java.util.Date;
 import org.joda.time.DateTime;
 import java.math.BigDecimal;
+import java.math.MathContext;
+
 import com.acmetelecom.call.Call;
 
 public class BillCalculator implements IBillCalculator {
 
 	
 	public BigDecimal calculate(Call call, BigDecimal peakRate, BigDecimal offPeakRate) {
+		
 		
         DaytimePeakPeriod peakPeriod = new DaytimePeakPeriod();
         boolean startOff = peakPeriod.offPeak(call.startTime());
@@ -42,9 +45,9 @@ public class BillCalculator implements IBillCalculator {
         	peak = ( peakEndOn(call.startTime()) - call.startTime().getTime()) / 1000;
         	offPeak = call.durationSeconds() - peak;
         }
-
-		BigDecimal peakCharge = new BigDecimal(peak).multiply(peakRate);
-		BigDecimal offPeakCharge = new BigDecimal(offPeak).multiply(offPeakRate);
+        MathContext mc = new MathContext(4);
+		BigDecimal peakCharge = BigDecimal.valueOf(peak).multiply(peakRate,mc);
+		BigDecimal offPeakCharge = BigDecimal.valueOf(offPeak).multiply(offPeakRate,mc);
 		cost = peakCharge.add(offPeakCharge);
         
 		return cost;
