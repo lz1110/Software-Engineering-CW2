@@ -1,5 +1,12 @@
 package com.acmetelecom;
 
+import com.acmetelecom.Implementations.*;
+import com.acmetelecom.Interfaces.IBillCalculator;
+import com.acmetelecom.Interfaces.IBillGenerator;
+import com.acmetelecom.Interfaces.ICustomerDatabase;
+import com.acmetelecom.Interfaces.ITariffDatabase;
+import com.acmetelecom.Utils.LineItem;
+import com.acmetelecom.Utils.MoneyFormatter;
 import com.acmetelecom.call.*;
 import com.acmetelecom.customer.*;
 
@@ -17,7 +24,7 @@ public class BillingSystem {
     // Getter (private auxiliary) and Setters
     private ICustomerDatabase getCustomerDatabase() {
         if (customerDatabase == null)
-            customerDatabase = new CustomerDatabase();
+            customerDatabase = new com.acmetelecom.Implementations.CustomerDatabase();
         return customerDatabase;
     }
     public void setCustomerDatabase(ICustomerDatabase customerDatabase) {

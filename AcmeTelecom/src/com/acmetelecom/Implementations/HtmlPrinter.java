@@ -1,6 +1,8 @@
-package com.acmetelecom;
+package com.acmetelecom.Implementations;
 
-class HtmlPrinter implements Printer {
+import com.acmetelecom.Interfaces.Printer;
+
+public class HtmlPrinter implements Printer {
 
     private static Printer instance = new HtmlPrinter();
 

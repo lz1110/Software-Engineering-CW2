@@ -1,10 +1,10 @@
-package com.acmetelecom;
+package com.acmetelecom.Implementations;
 
 import java.math.BigDecimal;
 
+import com.acmetelecom.Interfaces.ITariffDatabase;
 import com.acmetelecom.customer.CentralTariffDatabase;
 import com.acmetelecom.customer.Customer;
-import com.acmetelecom.customer.Tariff;
 
 public class TariffDatabase implements ITariffDatabase {
 	public BigDecimal offPeakRate(Customer customer) {

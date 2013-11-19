@@ -1,5 +1,6 @@
-package com.acmetelecom;
+package com.acmetelecom.Interfaces;
 
+import com.acmetelecom.Utils.LineItem;
 import com.acmetelecom.customer.Customer;
 
 import java.util.List;

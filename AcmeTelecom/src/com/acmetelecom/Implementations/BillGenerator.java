@@ -1,5 +1,9 @@
-package com.acmetelecom;
+package com.acmetelecom.Implementations;
 
+import com.acmetelecom.Interfaces.IBillGenerator;
+import com.acmetelecom.Interfaces.Printer;
+import com.acmetelecom.Utils.LineItem;
+import com.acmetelecom.Utils.MoneyFormatter;
 import com.acmetelecom.customer.Customer;
 
 import java.util.List;

@@ -2,8 +2,6 @@ package specs.acmetelecom;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,13 +11,10 @@ import org.jmock.Mockery;
 import org.junit.runner.RunWith;
 
 import com.acmetelecom.BillingSystem;
-import com.acmetelecom.IBillGenerator;
-import com.acmetelecom.ICustomerDatabase;
-import com.acmetelecom.ITariffDatabase;
-import com.acmetelecom.customer.CentralTariffDatabase;
+import com.acmetelecom.Interfaces.IBillGenerator;
+import com.acmetelecom.Interfaces.ICustomerDatabase;
+import com.acmetelecom.Interfaces.ITariffDatabase;
 import com.acmetelecom.customer.Customer;
-import com.acmetelecom.customer.Tariff;
-import com.acmetelecom.customer.TariffLibrary;
 
 import org.jmock.Expectations;
 import org.joda.time.DateTime;
