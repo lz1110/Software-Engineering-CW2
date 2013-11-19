@@ -12,6 +12,7 @@ public class BillingSystem {
     private ICustomerDatabase customerDatabase;
     private ITariffDatabase tariffDatabase;
 	private IBillGenerator billGenerator;
+	private IBillCalculator billCalculator;
 
     // Getter and Setters
     public ICustomerDatabase getCustomerDatabase() {
@@ -43,20 +44,36 @@ public class BillingSystem {
     
 	
     // The BillingSystem starts here
-    private List<CallEvent> callLog = new ArrayList<CallEvent>();
+    private Map<String,List<CallEvent>> callLog = new HashMap<String, List<CallEvent>>();
+    //private List<CallEvent> callLog = new ArrayList<CallEvent>();
     private List<Customer> customers;
     
     public BillingSystem(){
         callFactory = new CallEventFactory();
+        billCalculator = new BillCalculator();
         // TODO either make it static class, or move the construction to somewhere else
     }
 
+//    public void callInitiated(String caller, String callee) {
+//        callLog.add(callFactory.createCallEvent(caller, callee, CallEventType.START));
+//    }
+    
     public void callInitiated(String caller, String callee) {
-        callLog.add(callFactory.createCallEvent(caller, callee, CallEventType.START));
+        List<CallEvent> eventList = callLog.get(caller); 
+        if (eventList == null) eventList = new ArrayList<CallEvent>();
+        eventList.add(callFactory.createCallEvent(caller, callee, CallEventType.START));
+        callLog.put(caller, eventList);
     }
 
+//    public void callCompleted(String caller, String callee) {
+//        callLog.add(callFactory.createCallEvent(caller, callee, CallEventType.END));
+//    }
+    
     public void callCompleted(String caller, String callee) {
-        callLog.add(callFactory.createCallEvent(caller, callee, CallEventType.END));
+    	List<CallEvent> eventList = callLog.get(caller); 
+        if (eventList == null) eventList = new ArrayList<CallEvent>();
+        eventList.add(callFactory.createCallEvent(caller, callee, CallEventType.END));
+        callLog.put(caller, eventList);
     }
 
     
@@ -69,39 +86,56 @@ public class BillingSystem {
     }
 
     private void createBillFor(Customer customer) {
+//        List<CallEvent> customerEvents = new ArrayList<CallEvent>();
+//        for (CallEvent callEvent : callLog) {
+//            if (callEvent.getCaller().equals(customer.getPhoneNumber())) {
+//                customerEvents.add(callEvent);
+//            }
+//        }
+//
+//        List<Call> calls = new ArrayList<Call>();
+//
+//        CallEvent start = null;
+//        for (CallEvent event : customerEvents) {
+//            if (event.getType() == CallEventType.START) {
+//                start = event;
+//            } else if (event.getType() == CallEventType.END && start != null) {
+//                calls.add(new Call(start, event));
+//                start = null;
+//            }
+//        }
+//
+//        BigDecimal totalBill = new BigDecimal(0);
+//        List<LineItem> items = new ArrayList<LineItem>();
+    	
+    	
+     	
+    	// Format the call log for the customer.
         List<CallEvent> customerEvents = new ArrayList<CallEvent>();
-        for (CallEvent callEvent : callLog) {
-            if (callEvent.getCaller().equals(customer.getPhoneNumber())) {
-                customerEvents.add(callEvent);
-            }
-        }
-
-        List<Call> calls = new ArrayList<Call>();
-
-        CallEvent start = null;
-        for (CallEvent event : customerEvents) {
-            if (event.getType() == CallEventType.START) {
-                start = event;
-            } else if (event.getType() == CallEventType.END && start != null) {
-                calls.add(new Call(start, event));
-                start = null;
-            }
-        }
-
+        customerEvents = callLog.get(customer.getPhoneNumber());
+        List<Call> calls = callFormat(customerEvents);
+        
+        // Calculate the cost.
         BigDecimal totalBill = new BigDecimal(0);
         List<LineItem> items = new ArrayList<LineItem>();
 
         for (Call call : calls) {
 
-            BigDecimal cost;
-
-            DaytimePeakPeriod peakPeriod = new DaytimePeakPeriod();
-            if (peakPeriod.offPeak(call.startTime()) && peakPeriod.offPeak(call.endTime()) && call.durationSeconds() < 12 * 60 * 60) {
-                cost = new BigDecimal(call.durationSeconds()).multiply(tariffDatabase.offPeakRate(customer));
-            } else {
-                cost = new BigDecimal(call.durationSeconds()).multiply(tariffDatabase.peakRate(customer));
-            }
-
+//            BigDecimal cost;
+//
+//            DaytimePeakPeriod peakPeriod = new DaytimePeakPeriod();
+//            if (peakPeriod.offPeak(call.startTime()) && peakPeriod.offPeak(call.endTime()) && call.durationSeconds() < 12 * 60 * 60) {
+//                cost = new BigDecimal(call.durationSeconds()).multiply(getTariffDatabase().offPeakRate(customer));
+//            } else {
+//                cost = new BigDecimal(call.durationSeconds()).multiply(getTariffDatabase().peakRate(customer));
+//            }
+//
+//            cost = cost.setScale(0, RoundingMode.HALF_UP);
+//            BigDecimal callCost = cost;
+//            totalBill = totalBill.add(callCost);
+//            items.add(new LineItem(call, callCost));
+        	
+            BigDecimal cost = billCalculator.calculate(call,getTariffDatabase().peakRate(customer),getTariffDatabase().offPeakRate(customer));
             cost = cost.setScale(0, RoundingMode.HALF_UP);
             BigDecimal callCost = cost;
             totalBill = totalBill.add(callCost);
@@ -120,6 +154,24 @@ public class BillingSystem {
         if(customers == null)
             customers = getCustomerDatabase().getCustomers();
         return customers;
+    }
+    
+    private List<Call> callFormat(List<CallEvent> eventLog) {
+    	List<Call> callLog = new ArrayList<Call>();
+    	
+    	if (eventLog != null) {
+    		CallEvent start = null;
+        	for (CallEvent event : eventLog) {
+        		if (event.getType() == CallEventType.START) {
+        			start = event;
+        		} else if (event.getType() == CallEventType.END && start != null) {
+        			callLog.add(new Call(start, event));
+        			start = null;
+        		}
+        	}
+    	}
+    	
+    	return callLog;
     }
 
 

@@ -54,21 +54,17 @@ public class BillSystemFixture {
 	
 
 	private final Map<String,BigDecimal> offPeakRates = new HashMap<String,BigDecimal>(){{
-		put("Business", new BigDecimal(0.1));
-		put("Standard", new BigDecimal(0.2));
-		put("Leisure", new BigDecimal(0.1));
+		put("Business", BigDecimal.valueOf(0.3));
+		put("Standard", BigDecimal.valueOf(0.2));
+		put("Leisure", BigDecimal.valueOf(0.1));
 	}
 	};
 	private final Map<String,BigDecimal> peakRates = new HashMap<String,BigDecimal>(){{
-		put("Business", new BigDecimal(0.2));
-		put("Standard", new BigDecimal(0.4));
-		put("Leisure", new BigDecimal(0.6));
+		put("Business", BigDecimal.valueOf(0.3));
+		put("Standard", BigDecimal.valueOf(0.5));
+		put("Leisure", BigDecimal.valueOf(0.8));
 	}
 	};
-	
-	
-	
-	
 	
 	private Customer lookUpCustomer (List<Customer> customers, String customerType) {
 		for (Customer c: customers) {
