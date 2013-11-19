@@ -14,8 +14,8 @@ public class BillingSystem {
 	private IBillGenerator billGenerator;
 	private IBillCalculator billCalculator;
 
-    // Getter and Setters
-    public ICustomerDatabase getCustomerDatabase() {
+    // Getter (private auxiliary) and Setters
+    private ICustomerDatabase getCustomerDatabase() {
         if (customerDatabase == null)
             customerDatabase = new CustomerDatabase();
         return customerDatabase;
@@ -24,7 +24,7 @@ public class BillingSystem {
         this.customerDatabase = customerDatabase;
     }
 
-    public IBillGenerator getBillGenerator() {
+    private IBillGenerator getBillGenerator() {
         if (billGenerator == null)
             billGenerator = new BillGenerator();
         return billGenerator;
@@ -33,7 +33,7 @@ public class BillingSystem {
         this.billGenerator = billGenerator;
     }
     
-    public ITariffDatabase getTariffDatabase() {
+    private ITariffDatabase getTariffDatabase() {
 		if (tariffDatabase == null)
 			tariffDatabase = new TariffDatabase(); 
 	    return tariffDatabase;
@@ -53,25 +53,21 @@ public class BillingSystem {
         billCalculator = new BillCalculator();
         // TODO either make it static class, or move the construction to somewhere else
     }
-
-//    public void callInitiated(String caller, String callee) {
-//        callLog.add(callFactory.createCallEvent(caller, callee, CallEventType.START));
-//    }
     
     public void callInitiated(String caller, String callee) {
+        // store the event in a caller-specific list
         List<CallEvent> eventList = callLog.get(caller); 
-        if (eventList == null) eventList = new ArrayList<CallEvent>();
+        if (eventList == null)
+            eventList = new ArrayList<CallEvent>();
         eventList.add(callFactory.createCallEvent(caller, callee, CallEventType.START));
         callLog.put(caller, eventList);
     }
 
-//    public void callCompleted(String caller, String callee) {
-//        callLog.add(callFactory.createCallEvent(caller, callee, CallEventType.END));
-//    }
-    
     public void callCompleted(String caller, String callee) {
+        // store the event in a caller-specific list
     	List<CallEvent> eventList = callLog.get(caller); 
-        if (eventList == null) eventList = new ArrayList<CallEvent>();
+        if (eventList == null)
+            eventList = new ArrayList<CallEvent>();
         eventList.add(callFactory.createCallEvent(caller, callee, CallEventType.END));
         callLog.put(caller, eventList);
     }
@@ -86,33 +82,8 @@ public class BillingSystem {
     }
 
     private void createBillFor(Customer customer) {
-//        List<CallEvent> customerEvents = new ArrayList<CallEvent>();
-//        for (CallEvent callEvent : callLog) {
-//            if (callEvent.getCaller().equals(customer.getPhoneNumber())) {
-//                customerEvents.add(callEvent);
-//            }
-//        }
-//
-//        List<Call> calls = new ArrayList<Call>();
-//
-//        CallEvent start = null;
-//        for (CallEvent event : customerEvents) {
-//            if (event.getType() == CallEventType.START) {
-//                start = event;
-//            } else if (event.getType() == CallEventType.END && start != null) {
-//                calls.add(new Call(start, event));
-//                start = null;
-//            }
-//        }
-//
-//        BigDecimal totalBill = new BigDecimal(0);
-//        List<LineItem> items = new ArrayList<LineItem>();
-    	
-    	
-     	
     	// Format the call log for the customer.
-        List<CallEvent> customerEvents = new ArrayList<CallEvent>();
-        customerEvents = callLog.get(customer.getPhoneNumber());
+        List<CallEvent> customerEvents = callLog.get(customer.getPhoneNumber());
         List<Call> calls = callFormat(customerEvents);
         
         // Calculate the cost.
@@ -120,21 +91,7 @@ public class BillingSystem {
         List<LineItem> items = new ArrayList<LineItem>();
 
         for (Call call : calls) {
-
-//            BigDecimal cost;
-//
-//            DaytimePeakPeriod peakPeriod = new DaytimePeakPeriod();
-//            if (peakPeriod.offPeak(call.startTime()) && peakPeriod.offPeak(call.endTime()) && call.durationSeconds() < 12 * 60 * 60) {
-//                cost = new BigDecimal(call.durationSeconds()).multiply(getTariffDatabase().offPeakRate(customer));
-//            } else {
-//                cost = new BigDecimal(call.durationSeconds()).multiply(getTariffDatabase().peakRate(customer));
-//            }
-//
-//            cost = cost.setScale(0, RoundingMode.HALF_UP);
-//            BigDecimal callCost = cost;
-//            totalBill = totalBill.add(callCost);
-//            items.add(new LineItem(call, callCost));
-        	
+        	// Calculation is done inside the billCalculator
             BigDecimal cost = billCalculator.calculate(call,getTariffDatabase().peakRate(customer),getTariffDatabase().offPeakRate(customer));
             cost = cost.setScale(0, RoundingMode.HALF_UP);
             BigDecimal callCost = cost;
@@ -170,8 +127,7 @@ public class BillingSystem {
         		}
         	}
     	}
-    	
-    	return callLog;
+        return callLog;
     }
 
 
