@@ -13,7 +13,6 @@ import org.junit.runner.RunWith;
 import com.acmetelecom.BillingSystem;
 import com.acmetelecom.Implementations.BillCalculator;
 import com.acmetelecom.Implementations.OldBillCalculator;
-import com.acmetelecom.Interfaces.IBillCalculator;
 import com.acmetelecom.Interfaces.IBillGenerator;
 import com.acmetelecom.Interfaces.ICustomerDatabase;
 import com.acmetelecom.Interfaces.ITariffDatabase;
