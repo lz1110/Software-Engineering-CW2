@@ -50,14 +50,14 @@ public class BillSystemFixture {
 
 	private final Map<String,BigDecimal> offPeakRates = new HashMap<String,BigDecimal>(){{
 		put("Business", new BigDecimal(0.3));
-		put("Standard", BigDecimal.valueOf(0.2));
-		put("Leisure", BigDecimal.valueOf(0.1));
+		put("Standard", new BigDecimal(10));
+		put("Leisure", new BigDecimal(0.1));
 	}
 	};
 	private final Map<String,BigDecimal> peakRates = new HashMap<String,BigDecimal>(){{
 		put("Business", new BigDecimal(0.3));
-		put("Standard", BigDecimal.valueOf(0.5));
-		put("Leisure", BigDecimal.valueOf(0.8));
+		put("Standard", new BigDecimal(20));
+		put("Leisure", new BigDecimal(0.8));
 	}
 	};
 	
@@ -69,7 +69,6 @@ public class BillSystemFixture {
 		}
 		return null;
 	}
-	
 	
     private void freeze(DateTime frozenDateTime) {DateTimeUtils.setCurrentMillisFixed(frozenDateTime.getMillis());}
     private void unfreeze() {DateTimeUtils.setCurrentMillisSystem();}	
