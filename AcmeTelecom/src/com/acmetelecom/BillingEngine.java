@@ -98,7 +98,7 @@ public class BillingEngine {
         List<Call> calls = callFormat(customerEvents);
 
         // Calculate the cost.
-        BigDecimal totalBill = new BigDecimal(0);
+        BigDecimal totalBill = BigDecimal.valueOf(0);
         List<LineItem> items = new ArrayList<LineItem>();
 
         for (Call call : calls) {
