@@ -31,6 +31,10 @@ public class BillingSystem {
 	public void setTariffDatabase(ITariffDatabase tariffDatabase) {
         billingEngine.setTariffDatabase(tariffDatabase);
     }
+	
+	public void setBillCalculator(IBillCalculator billCalculator) {
+		billingEngine.setBillCalculator(billCalculator);
+	}
 
     // Constructor instantiates class objects
     public BillingSystem(){
