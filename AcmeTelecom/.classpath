@@ -13,5 +13,7 @@
 	<classpathentry kind="lib" path="lib/xom-1.2.5.jar"/>
 	<classpathentry kind="lib" path="lib/joda-time-2.3.jar"/>
 	<classpathentry kind="lib" path="lib/zohhak-1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang3-3.1.jar"/>
+	<classpathentry kind="lib" path="lib/plastic-5.3.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
