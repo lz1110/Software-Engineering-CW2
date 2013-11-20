@@ -47,12 +47,15 @@ public class BillingEngine {
         this.callEventFactory = callEventFactory;
     }
 
-
+    protected Map<String,List<CallEvent>> getCallLog() {
+    	return callLog;
+    }
+    
     //
     private Map<String,List<CallEvent>> callLog = new HashMap<String, List<CallEvent>>();
     private List<Customer> customers;
 
-    public BillingEngine(ICallEventFactory callEventFactory, IBillGenerator billGenerator,
+    protected BillingEngine(ICallEventFactory callEventFactory, IBillGenerator billGenerator,
                          IBillCalculator billCalculator, ICustomerDatabase customerDatabase,
                          ITariffDatabase tariffDatabase){
         this.callEventFactory = callEventFactory;
@@ -62,7 +65,7 @@ public class BillingEngine {
         this.tariffDatabase = tariffDatabase;
     }
 
-    public void callInitiated(String caller, String callee) {
+    protected void callInitiated(String caller, String callee) {
         // store the event in a caller-specific list
         List<CallEvent> eventList = callLog.get(caller);
         if (eventList == null)
@@ -71,7 +74,7 @@ public class BillingEngine {
         callLog.put(caller, eventList);
     }
 
-    public void callCompleted(String caller, String callee) {
+    protected void callCompleted(String caller, String callee) {
         // store the event in a caller-specific list
         List<CallEvent> eventList = callLog.get(caller);
         if (eventList == null)
@@ -81,7 +84,7 @@ public class BillingEngine {
     }
 
 
-    public void createCustomerBills() {
+    protected void createCustomerBills() {
         List<Customer> customers = customerDatabase.getCustomers();
         for (Customer customer : customers) {
             createBillFor(customer);

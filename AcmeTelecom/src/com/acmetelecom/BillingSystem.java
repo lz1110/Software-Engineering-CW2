@@ -1,5 +1,8 @@
 package com.acmetelecom;
 
+import java.util.List;
+import java.util.Map;
+
 import com.acmetelecom.Implementations.BillCalculator;
 import com.acmetelecom.Implementations.BillGenerator;
 import com.acmetelecom.Implementations.CustomerDatabase;
@@ -9,6 +12,7 @@ import com.acmetelecom.Interfaces.IBillCalculator;
 import com.acmetelecom.Interfaces.IBillGenerator;
 import com.acmetelecom.Interfaces.ICustomerDatabase;
 import com.acmetelecom.Interfaces.ITariffDatabase;
+import com.acmetelecom.call.CallEvent;
 import com.acmetelecom.call.CallEventFactory;
 import com.acmetelecom.call.ICallEventFactory;
 
@@ -36,6 +40,11 @@ public class BillingSystem {
 		billingEngine.setBillCalculator(billCalculator);
 	}
 
+	
+	public Map<String,List<CallEvent>> getCallLog() {
+		return billingEngine.getCallLog();
+	}
+	
     // Constructor instantiates class objects
     public BillingSystem(){
 

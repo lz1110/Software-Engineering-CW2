@@ -28,7 +28,24 @@ public class BillCalculatorTest {
 	}
 
 	@TestWith({
-		   "'11/11/2013 19:00:00', '12/11/2013 06:59:59', 20, 10, 431990"
+		   "'11/11/2013 19:00:00', '12/11/2013 06:59:59', 20, 10, 431990",
+		   "'11/11/2013 06:59:59', '11/11/2013 19:00:00', 20, 10, 864010",
+		   "'11/11/2013 06:59:59', '12/11/2013 06:59:59', 20, 10, 1296000",
+		   
+		   "'11/11/2013 07:00:00', '11/11/2013 18:59:59', 20, 10, 863980",
+		   "'11/11/2013 18:59:59', '12/11/2013 07:00:00', 20, 10, 432020",
+		   
+		   "'11/11/2013 06:59:59', '11/11/2013 07:00:00', 20, 10, 10",
+		   "'11/11/2013 06:59:59', '11/11/2013 08:00:00', 20, 10, 72010",
+		   "'11/11/2013 06:59:59', '11/11/2013 18:59:59', 20, 10, 863990",
+		   "'11/11/2013 19:00:00', '12/11/2013 07:00:00', 20, 10, 432000",
+		   "'11/11/2013 19:00:00', '12/11/2013 18:59:59', 20, 10, 1295980",
+		   
+		   "'11/11/2013 18:59:59', '11/11/2013 19:00:00', 20, 10, 20",
+		   "'11/11/2013 18:59:59', '11/11/2013 20:00:00', 20, 10, 36020",
+		   "'11/11/2013 18:59:59', '12/11/2013 06:59:59', 20, 10, 432010",
+		   "'11/11/2013 07:00:00', '11/11/2013 19:00:00', 20, 10, 864000",
+		   "'11/11/2013 07:00:00', '12/11/2013 06:59:59', 20, 10, 1295990",
 		})
 	public void testCalculate (String startTime, String endTime, BigDecimal peakRate, BigDecimal offPeakRate, BigDecimal expectedResult) {
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
@@ -43,10 +60,12 @@ public class BillCalculatorTest {
 	    assertTrue(result.equals(expectedResult));
 	}
 	
+
 	@Coercion
 	public BigDecimal whateverName (String input) {
 		return new BigDecimal(input);
 	}
+	
     private void freeze(DateTime frozenDateTime) {DateTimeUtils.setCurrentMillisFixed(frozenDateTime.getMillis());}
     private void unfreeze() {DateTimeUtils.setCurrentMillisSystem();}
 
