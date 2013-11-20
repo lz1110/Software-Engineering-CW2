@@ -1,5 +1,7 @@
 package com.acmetelecom.call;
 
+import org.joda.time.DateTime;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -24,11 +26,11 @@ public class Call {
         return SimpleDateFormat.getInstance().format(new Date(start.time()));
     }
 
-    public Date startTime() {
-        return new Date(start.time());
+    public DateTime startTime() {
+        return new DateTime(start.time());
     }
 
-    public Date endTime() {
-        return new Date(end.time());
+    public DateTime endTime() {
+        return new DateTime(end.time());
     }
 }
